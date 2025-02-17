@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Window</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light text-center">
+
+    <div class="container py-5">
+        <a href="/profile" 
+        class="float-end text-decoration-none text-muted fw-bold link-primary">
+            <%= usernameData.username %>
+        </a>
+        <%-include('partials/header.ejs') %>
+
+        <% if (livePlayerUrl) { %>
+        <h3><%= livePlayerUrl.title %></h3>
+
+        <div class="row align-items-start">
+            <div class="col-md-9 text-center">
+                    <iframe 
+                        src="<%= livePlayerUrl.player.day %>" 
+                        width="100%" 
+                        height="500" 
+                        frameborder="0" 
+                        allowfullscreen>
+                    </iframe>
+            </div>
+
+            <div class="col-md-3">
+                <div class="p-4 border rounded bg-white shadow-sm">
+                    <h4 class="mb-3">Weather Information</h4>
+                    <div><strong>Temperature:</strong> <%= weatherData.current.temperature_2m %> <%= weatherData.current_units.temperature_2m %></div>
+                    <div><strong>Humidity:</strong> <%= weatherData.current.relative_humidity_2m %>%</div>
+                    <div><strong>Rain:</strong> <%= weatherData.current.rain %> mm</div>
+                    <div><strong>Snowfall:</strong> <%= weatherData.current.snowfall %> cm</div>
+                    <div><strong>Cloud Cover:</strong> <%= weatherData.current.cloud_cover %>%</div>
+                    <div><strong>Wind Speed:</strong> <%= weatherData.current.wind_speed_10m %> km/hr</div>
+
+                    <hr>
+                    <div class="d-flex align-items-center justify-content-between mt-3">
+                        <strong>Likes:</strong>
+                        <p id="numLikes" class="mb-0"><%= numLikes[0].likes %></p>
+                    </div>
+                    <div class="heartbox mt-2">
+                        <form id="like" action="/like" method="POST">
+                            <input type="hidden" id="livePlayerUrl" name="livePlayerUrl" value="<%= JSON.stringify(livePlayerUrl) %>">
+                            <input type="checkbox" class="checkbox" name="checkbox" id="checkbox" 
+                                <% if (isChecked) { %> checked <% } %> />
+                            <label for="checkbox">
+                                <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
+                                    <g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
+                                        <path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" id="heart" fill="#AAB8C2" />
+                                        <circle id="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5" />
+                                    </g>
+                                </svg>
+                            </label>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <% } else { %>
+            <div class="alert alert-warning">No webcams available for selected country.</div>
+        <% } %>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="like.js"></script>
+</body>
+</html>
