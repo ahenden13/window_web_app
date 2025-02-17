@@ -4,4 +4,5 @@ A web application that allows users to create accounts and login in, as well as 
 API Fetch Calls: 
 Two external Web APIs were used: Windy Webcam API and Open-Meteo API.
 
-Also uses pgAdmin MySQL database.
+Also uses pgAdmin MySQL database to manage data and bcrypt for password hashing.
+
