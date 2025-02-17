@@ -11,8 +11,6 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }))
 
-
-// idek how this is different than what the module had but i trust micah he is sometimes wise
 app.set('trust proxy', 1)
 app.use(session({
  secret: '343ji43j4n3jn4jk3n',
@@ -20,19 +18,17 @@ app.use(session({
  saveUninitialized: true
 }))
 
-
-// my pool now (muahaha)
 const pool = mysql.createPool({
    host: "william-peltz.tech",
-   user: "williamp_webuser",
-   password: "Cst-336",
+   user: "*confidential*",
+   password: "*confidential*",
    database: "williamp_window",
    connectionLimit: 10,
    waitForConnections: true
 });
 const conn = await pool.getConnection();
 
-const WINDY_API_KEY = 'LH63TwW28Wh1AOTLF8xACbTLstHGwJmq';
+const WINDY_API_KEY = '*confidential*';
 
 app.get('/', isAuthenticated, async (req, res) => {
     
@@ -51,7 +47,6 @@ app.get('/', isAuthenticated, async (req, res) => {
 
     console.log('Countries:', countries); 
 
-    //Micah's code(the username stuff), so if it doesn't work blame me(Micah)
     const usernameSQL = `SELECT username FROM user WHERE userId = ?`;
     const [usernameRows] = await conn.query(usernameSQL, [req.session.userId]);
     if (usernameRows.length === 0) {
@@ -83,7 +78,6 @@ app.get('/', isAuthenticated, async (req, res) => {
         
         console.log('API Response:', data); 
 
-        // was data.player.day but we gotta change that stuff we need it ALL
         livePlayerUrl = data;
         console.log(livePlayerUrl);
 
@@ -179,7 +173,6 @@ app.post('/login', async (req, res) => {
     }
  });
  
- // lets people signup, we still need code to get a usable hometown
  app.post('/signup', async (req, res) => {
     console.log("good");
  
@@ -260,7 +253,6 @@ app.get('/webcams', isAuthenticated, async (req, res) => {
         });
         const webcams = await response.json();
 
-        //Micah's code(the username stuff), so if it doesn't work blame me(Micah)
         const usernameSQL = `SELECT username FROM user WHERE userId = ?`;
         const [usernameRows] = await conn.query(usernameSQL, [req.session.userId]);
         if (usernameRows.length === 0) {
@@ -290,7 +282,6 @@ app.get('/displayCam', async (req, res) => {
     
     console.log('API Response:', data); 
 
-    // was data.player.day but we gotta change that shit we need it ALL
     const livePlayerUrl = data;
     console.log(livePlayerUrl);
 
@@ -564,7 +555,6 @@ app.post('/like', async (req, res) => {
 });
        
 
-// stole from micah cause his is cleaner lol
 function isAuthenticated (req, res, next) {
     if (req.session.authenticated) {
         next();
@@ -574,7 +564,6 @@ function isAuthenticated (req, res, next) {
 }
  
  
-// i think we have to use 3000 for the new method?
 app.listen(3000, () => {
     console.log("Express server running");
 });
